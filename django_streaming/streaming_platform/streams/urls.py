@@ -1,7 +1,8 @@
 from django.urls import path
-from streams.views import create_stream, list_streams
+from .views import start_stream, view_stream, list_streams
 
 urlpatterns = [
-    path('create_stream/', create_stream),
+    path('start_stream/', start_stream),
+    path('view_stream/<stream_id>/', view_stream),
     path('list_streams/', list_streams),
 ]

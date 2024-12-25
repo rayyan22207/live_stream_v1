@@ -123,4 +123,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ANT_MEDIA_SERVER_URL = "rtmp://localhost:1935/LiveApp"
+# settings.py
+ANT_MEDIA_SERVER_URL = "http://host.docker.internal:5080/LiveApp"

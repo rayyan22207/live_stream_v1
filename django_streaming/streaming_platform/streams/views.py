@@ -1,13 +1,22 @@
 from django.http import JsonResponse
-from .models import Stream
-import uuid
+from .services import create_live_stream, get_stream_details, list_active_streams
 
-def create_stream(request):
+def start_stream(request):
     title = request.GET.get("title", "Untitled Stream")
-    stream_key = str(uuid.uuid4())
-    stream = Stream.objects.create(title=title, stream_key=stream_key)
-    return JsonResponse({"id": stream.id, "title": stream.title, "stream_key": stream.stream_key})
+    stream_data = create_live_stream(title)
+
+    # Log the stream_data type and content for debugging
+    print(f"Stream Data Type: {type(stream_data)}, Content: {stream_data}")
+
+    if isinstance(stream_data, bytes):
+        stream_data = stream_data.decode('utf-8')
+
+    return JsonResponse(stream_data, safe=False)
+
+def view_stream(request, stream_id):
+    stream_data = get_stream_details(stream_id)
+    return JsonResponse(stream_data)  # Returns details like status, viewer count
 
 def list_streams(request):
-    streams = list(Stream.objects.values("id", "title", "stream_key"))
+    streams = list_active_streams()
     return JsonResponse({"streams": streams})

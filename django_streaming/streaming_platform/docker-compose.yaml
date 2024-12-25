@@ -23,3 +23,9 @@ services:
       - "1935:1935"
       - "5443:5443"
     restart: unless-stopped
+    networks:
+      - shard_network
+
+networks:
+  shard_network:
+    driver: bridge
